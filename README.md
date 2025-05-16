@@ -1,4 +1,4 @@
-#Meowcipe
+# Meowcipe
 
 Meowcipe is a full-stack web application developed to create an online platform where users 
 can share, browse, and save culinary recipes. The project highlights core concepts of full
