@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Sharing Community</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Global Styles */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+
+        /*Header css*/
+        .header-container {
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        #header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .hamburger {
+            display: none;
+            font-size: 1.5rem;
+            color: #484848;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f8f9fa;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .hamburger:hover {
+            background-color: #eaeaea;
+        }
+        
+        #logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ff6b6b;
+            margin: 0 20px;
+        }
+        
+        #logo i {
+            margin-right: 8px;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+        
+        .navButton {
+            margin-right: 10px;
+            position: relative;
+        }
+        
+        .navButton a {
+            color: var(--recipe-text);
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: block;
+        }
+        
+        .navButton a:hover {
+            background-color: #f8f9fa;
+            color: #ff6b6b;
+        }
+        
+        .navButton.active a {
+            color: #ff6b6b;
+            background-color: rgba(255, 107, 107, 0.1);
+        }
+        
+        .navButton.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 3px;
+            background-color: #ff6b6b;
+            border-radius: 3px;
+        }
+        
+        #login-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .login-button, .logout-button {
+            background-color: #ff6b6b;
+            border-color: #ff6b6b;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .login-button:hover, .logout-button:hover {
+            background-color: #e95858;
+            border-color: #e95858;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        /*Rest*/
+        .section-padding {
+            padding: 80px 0;
+        }
+        h1, h2, h3 {
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        .accent-text {
+            color: #ff6b6b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+        }
+        
+        .bg-light-gray {
+            background-color: #f9f9f9;
+        }
+        
+        .bg-accent {
+            background-color: #ff6b6b;
+        }
+        
+        .hero-heading {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .card-img-top {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            height: 200px;
+            object-fit: cover;
+        }
+        .btn-outline-accent {
+            color: #ff6b6b;
+            border-color: #ff6b6b;
+        }
+        
+        .btn-outline-accent:hover {
+            background-color: #ff6b6b;
+            color: white;
+        }
+        
+        .btn-accent {
+            background-color: #ff6b6b;
+            color: white;
+        }
+        
+        .btn-accent:hover {
+            background-color: #ff5252;
+            color: white;
+        }
+        
+        .btn {
+            border-radius: 30px;
+            padding: 10px 25px;
+        }
+        
+        .read-more {
+            color: #ff6b6b;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .read-more:hover {
+            text-decoration: underline;
+        }
+        
+        .subscribe-input {
+            border-radius: 30px 0 0 30px;
+            border: none;
+            padding: 15px 20px;
+        }
+        
+        .subscribe-btn {
+            border-radius: 0 30px 30px 0;
+            background-color: #333;
+            color: white;
+            border: none;
+        }
+        
+        .hero-image {
+            background-image: url('../image/hero-image.jpg');
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            height: 500px;
+        }
+        #we{
+            width: 100px;
+            height: 40px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+            
+        .fade-In {
+            animation: fadeIn 0.5s ease;
+        }
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-links {
+                position: absolute;
+                top: 80px;
+                left: 0;
+                right: 0;
+                background-color: white;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px;
+                border-radius: 0 0 8px 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                z-index: 1000;
+                display: none;
+            }
+            
+            .nav-links.show {
+                display: flex;
+            }
+            
+            .navButton {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .navButton a {
+                padding: 12px 15px;
+                width: 100%;
+            }
+            
+            .navButton.active::after {
+                display: none;
+            }
+            .subscribe-input {
+                border-radius: 30px;
+                margin-bottom: 10px;
+            }
+            
+            .subscribe-btn {
+                border-radius: 30px;
+                width: 100%;
+            }
+            
+            .input-group {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <section id="header">
+          <div class="hamburger">
+            <i class="fa-solid fa-bars"></i>
+          </div>
+          
+          <div id="logo"> 
+            <i class="fa-solid fa-paw"></i> Meowcipe 
+          </div>
+          
+          <nav class="nav-links">
+            <div class="navButton navHome active"><a href="/">Home</a></div>
+            <div class="navButton navBrowse"><a href="/browse-recipe">Browse Recipe</a></div>
+            <div class="navButton navSubmit hidden"><a href="/upload-recipe">Submit Recipe</a></div>
+            <div class="navButton navMyrecipe hidden"><a href="/my-recipe">My Recipe</a></div>
+            <div class="navButton navSaved hidden"><a href="/saved">Saved</a></div>
+          </nav>
+          
+          <div id="login-container">
+            <button class="btn login-button" onclick="location.href='/login'">Login</button>
+            <button class="btn logout-button hidden" onclick="logoutUser()">Logout</button>
+          </div>
+        </section>
+    </div>
+    <!-- Welcome Section -->
+    <section id="welcome" class="section-padding fade-In">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <h1 class="display-4 hero-heading mb-4">Share Your Delicious Recipes with the World!</h1>
+                    <p class="lead mb-4">Join our vibrant community of food lovers and showcase your culinary creations.</p>
+                    <button class="btn btn-outline-accent me-3" onclick="location.href='#explore'">Explore</button>
+                    <button class="btn btn-accent">Share</button>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-image"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Showcase Section -->
+    <section id="showcase" class="section-padding bg-light-gray">
+        <div class="container text-center">
+            <p class="accent-text mb-2">Discover</p>
+            <h2 class="display-6 fw-normal mb-3">Explore Our Delicious Recipe Features</h2>
+            <p class="mb-5">Dive into our featured recipes that are trending, top-rated, and freshly added. Each recipe card is designed to inspire your culinary adventures.</p>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <img src="../../uploads/demo-image.jpg" class="card-img-top" alt="Trending recipe">
+                        <div class="card-body">
+                            <h3 class="card-title h5 ">Trending Recipes You Can't Miss</h3>
+                            <p class="card-text">Stay updated with the latest culinary trends.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <img src="../../uploads/demo-image.jpg" class="card-img-top" alt="Top-rated recipe">
+                        <div class="card-body">
+                            <h3 class="card-title h5">Top-Rated Recipes Loved by Our Community</h3>
+                            <p class="card-text">Discover the recipes that everyone is raving about.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <img src="../../uploads/demo-image.jpg" class="card-img-top" alt="New recipe">
+                        <div class="card-body">
+                            <h3 class="card-title h5">Newly Added Recipes for You to Try</h3>
+                            <p class="card-text">Be the first to explore our latest creations.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Latest Recipes Section -->
+    <section id="latestRecepies" class="section-padding">
+        <div class="container text-center">
+            <p class="accent-text mb-2">Blog</p>
+            <h2 class="display-6 mb-3 fw-normal">Delicious Recipes Await You</h2>
+            <p class="mb-5">Explore the latest and greatest in home cooking</p>
+            
+            <div class="row g-4 deliciousRecipes">
+            </div>
+        </div>
+    </section>
+    
+    <!-- Join Us Section -->
+    <section id="joinus" class="section-padding bg-accent text-white">
+        <div class="container text-center">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="display-6 mb-4fw-normal">Join Our Recipe Community!</h2>
+                    <p class="lead mb-4">Subscribe to our newsletter for delicious recipes and exciting updates delivered right to your inbox!</p>
+                    
+                    <div class="input-group mb-3 justify-content-center">
+                        <input id="email" type="email" class="form-control subscribe-input" placeholder="Your Email Here" aria-label="Email">
+                        <button class="btn subscribe-btn" id="sub_btn" type="button">Subscribe Now</button>
+                    </div>
+                    
+                    <p class="small opacity-75 mt-4">By Clicking Subscribe Now, you agree to our Terms and Conditions</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer Section -->
+    <footer id="footer" class="bg-dark text-white py-4">
+        <div class="container text-center">
+            <span class="mb-1">© Meowcipe with <i class="fa-solid fa-heart"></i> by Shubhra & Bhumi </span><span><img id="we" src="../image/hehe.png" alt="We the people"></span>
+            <p class="mb-0">Created with love for food enthusiasts everywhere.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function logoutUser() {
+            await fetch("/logout");
+            alert("Logged out successfully!");
+            window.location.href = "/";
+        }
+        async function checkLoginStatus() {
+            const response = await fetch("/check-login");
+            const data = await response.json();
+            
+            if (data.loggedIn) {
+               $('.login-button').addClass('hidden');
+               $('.logout-button').removeClass('hidden');
+               $('.navSubmit').removeClass('hidden');
+               $('.navMyrecipe').removeClass('hidden');
+               $('.navSaved').removeClass('hidden');
+            } 
+        }
+        document.addEventListener("DOMContentLoaded", checkLoginStatus);
+        $(document).ready(()=>{
+            $('.hamburger').click((event)=>{
+                $('.nav-links').toggleClass('active');
+                event.stopPropagation();
+            })
+            $('.subscribe-btn').click(()=>{
+                const email = $('#email').val();
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                if (email == '') {
+                    alert(" Please enter an email address.");
+                } else if (!emailRegex.test(email)) {
+                alert( " Invalid email format. Please enter a valid email.");
+                } else {
+                    $.ajax({
+                        url:'/sendMail',
+                        method:'post',
+                        data:{clientMail:email},
+                        success:function(response){
+                            alert("Thanks for subscribing")
+                        },
+                        error:function(error){
+                            alert("Something went wrong Try later")
+                        }
+                    })
+                }
+            })
+
+            $('#logo').click(function () {
+                var audio ;
+                audio = new Audio();
+                audio.src ="../audio/meow.mp3"
+                audio.addEventListener('loadeddata', function () {
+                    audio.play();
+                });
+            });
+            $.ajax({
+                url:`/api/fetch-front`,
+                type:'get',
+                dataType:'json',
+                success:(response)=>{
+                $('.deliciousRecipes').empty()
+                console.log(response.data)
+                response.data.forEach(recipe=>{
+                    $('.deliciousRecipes').append(
+                    `
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <img src="${recipe.image}" class="card-img-top" alt="Pancakes">
+                            <div class="card-body">
+                                <h3 class="card-title h5">${recipe.title}</h3>
+                                <p class="card-text">${recipe.description}</p>
+                                <p class="read-more">Read more....</p>
+                            </div>
+                        </div>
+                    </div>
+                    `
+                    )
+                })
+                console.log("hi")
+                },
+                error:(error)=>{
+                console.log(error)
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
